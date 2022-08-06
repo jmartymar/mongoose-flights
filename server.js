@@ -3,10 +3,11 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+const methodOverride = require('method-override');
 
 const indexRouter = require('./routes/index');
-const flightRouter = require('./routes/flights');
-const destinationController = require('./routes/destinations');
+const flightsRouter = require('./routes/flights');
+const destinationsController = require('./routes/destinations');
 
 require('./config/database');
 
@@ -21,10 +22,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(methodOverride('_method'));
 
 app.use('/', indexRouter);
-app.use('/flights', flightRouter);
-app.use('/', destinationController);
+app.use('/flights', flightsRouter);
+app.use('/', destinationsController);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

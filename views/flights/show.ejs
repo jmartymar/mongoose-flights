@@ -28,16 +28,16 @@
         <div class="mb-3">
           <label for="airport">Airport</label>
           <select name="airport" class="form-control">
-            <option value="AUS">AUS</option>
-            <option value="DFW">DFW</option>
-            <option value="DEN">DEN</option>
-            <option value="LAX">LAX</option>
-            <option value="SAN">SAN</option>
+            <% destinationAirports.forEach((airport) => {
+              if(!existingDestinations.includes(airport)) { %>
+                <option value="<%= airport %>"><%= airport %></option>
+            <% } %>
+          <% }); %>
           </select>
         </div>
         <div class="mb-3">
           <label for="arrival">Arrival</label>
-          <input type="datetime-local" name="arrival" class="form-control" value="<%= departsTime %>">
+          <input type="datetime-local" name="arrival" class="form-control" value="<%= arrivalTime %>">
         </div>        
         <div class="mb-3 text-center">
           <button class="btn btn-primary" type="submit">Save Destination</button>
@@ -60,8 +60,13 @@
         <tbody class="table-group-divider">
           <% flight.destinations.forEach(function(destination) { %>
             <tr>
-              <td><%= destination.airport %> </td>
-              <td><%= destination.arrival.toLocaleDateString() + ' ' + destination.arrival.toLocaleTimeString() %> </td>
+              <td><%= destination.airport %></td>
+              <td><%= destination.arrival.toLocaleDateString() + ' ' + destination.arrival.toLocaleTimeString() %></td>
+              <td>
+                <form method="POST" action="/flights/<%= flight._id %>/destinations/<%= destination._id %>?_method=DELETE">
+                  <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+              </td>
             </tr>
           <% }); %>
         </tbody>
