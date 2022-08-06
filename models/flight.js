@@ -5,6 +5,17 @@ const date = new Date();
 const dateNextYear = new Date(date.getTime());
 dateNextYear.setFullYear(date.getFullYear() + 1);
 
+
+const destinationSchema = new mongoose.Schema({
+	airport: { 
+    type: String, 
+    enum: ['AUS', 'DFW', 'DEN', 'LAX', 'SAN'] 
+  } ,
+	arrival: Date
+})
+
+
+
 const flightSchema = new mongoose.Schema({
   airline: { 
     type: String, 
@@ -24,7 +35,8 @@ const flightSchema = new mongoose.Schema({
   departs: {
     type: Date, 
     default: dateNextYear 
-  }
+  },
+  destinations: [destinationSchema]
 });
 
 

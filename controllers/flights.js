@@ -3,8 +3,10 @@ const Flight = require('../models/flight');
 module.exports = {
  index,
  new: newFlight,
- create
+ create,
+ show
 }
+
 
 function index(req, res) {
   const now = new Date();
@@ -17,6 +19,16 @@ function index(req, res) {
       flights: allFlights
     });
   })
+}
+
+function show(req, res) {
+  const newFlight = new Flight();
+  const dateTime = newFlight.departs;
+  const departsTime = dateTime.toISOString().slice(0, 16);
+  Flight.findById(req.params.id, function(err, flightDocument) {
+    sortArrivalTime(flightDocument);
+    res.render('flights/show', { flight: flightDocument, departsTime });
+  });
 }
 
 function newFlight(req, res) {
@@ -34,4 +46,8 @@ function create(req, res) {
     }
     res.redirect('/flights');
   })
+}
+
+function sortArrivalTime(flightObject) {
+  return flightObject.destinations.sort((a, b) => a.arrival - b.arrival); 
 }

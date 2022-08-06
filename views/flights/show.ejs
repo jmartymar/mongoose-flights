@@ -1,0 +1,74 @@
+<%- include('../partials/header') %>
+<h2 class="text-center">Flight No. <%= flight.flightNo %> Info</h2>
+<div class="row mt-3">
+  <div class="col-4 offset-4">
+    <div class="d-flex justify-content-between">
+      <span><strong>Airline:</strong></span>
+      <span><%= flight.airline %></span>
+    </div>
+    <div class="d-flex justify-content-between">
+      <span><strong>Airport:</strong></span>
+      <span><%= flight.airport %></span>
+    </div>
+    <div class="d-flex justify-content-between">
+      <span><strong>Flight Number:</strong></span>
+      <span><%= flight.flightNo %></span>
+    </div>
+    <div class="d-flex justify-content-between">
+      <span><strong>Departure:</strong></span>
+      <span><%= flight.flightNo %></span>
+    </div>  
+  </div>
+</div>
+<div class="row mt-5">
+  <div class="col-4 offset-4">
+    <fieldset>
+      <legend class="text-center"><h4>Add Destination</h4></legend>
+      <form class="form" id="add-review-form" method="POST" action="/flights/<%= flight._id %>/destinations">
+        <div class="mb-3">
+          <label for="airport">Airport</label>
+          <select name="airport" class="form-control">
+            <option value="AUS">AUS</option>
+            <option value="DFW">DFW</option>
+            <option value="DEN">DEN</option>
+            <option value="LAX">LAX</option>
+            <option value="SAN">SAN</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label for="arrival">Arrival</label>
+          <input type="datetime-local" name="arrival" class="form-control" value="<%= departsTime %>">
+        </div>        
+        <div class="mb-3 text-center">
+          <button class="btn btn-primary" type="submit">Save Destination</button>
+        </div> 
+      </form>
+    </fieldset>
+  </div>
+ </div>
+ <div class="row mt-5">
+  <div class="col-4 offset-4">
+ <% if (flight.destinations.length) { %>
+  <h4 class="text-center">Destinations</h4>
+  <table class="table table-dark table-hover table-striped table-bordered">
+        <thead>
+          <tr>
+            <th>Airport</th>
+            <th>Arrival</th>
+          </tr>
+        </thead>
+        <tbody class="table-group-divider">
+          <% flight.destinations.forEach(function(destination) { %>
+            <tr>
+              <td><%= destination.airport %> </td>
+              <td><%= destination.arrival.toLocaleDateString() + ' ' + destination.arrival.toLocaleTimeString() %> </td>
+            </tr>
+          <% }); %>
+        </tbody>
+      </table>
+<% } else { %>
+    <h5 class="text-center">No Destinations Yet</h5>
+<% } %>
+  </div>
+</div>
+<%- include('../partials/footer') %>
